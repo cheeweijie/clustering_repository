@@ -119,7 +119,6 @@ terms = tfidf_vectorizer.get_feature_names()
 print terms[:100]
 print "The length of terms is {}".format(len(terms))
 
-raw_input("")
 
 from sklearn.metrics.pairwise import cosine_similarity
 dist = 1 - cosine_similarity(tfidf_matrix)
@@ -132,6 +131,10 @@ clusters = km.labels_.tolist()
 faculty = { 'author_IDs': author_IDs, 'abstracts': abstracts, 'cluster': clusters}
 frame = pd.DataFrame(faculty, index = [clusters], columns = ['author_IDs','abstracts', 'cluster'])
 print frame['cluster'].value_counts()
+
+with open("dist.p", "wb") as f:     # Save the vectorizer in a pickle file
+    pickle.dump(dist, f, pickle.HIGHEST_PROTOCOL)
+    f.close()
 
 with open("frame.p", "wb") as f:     # Save the vectorizer in a pickle file
     pickle.dump(frame, f, pickle.HIGHEST_PROTOCOL)
